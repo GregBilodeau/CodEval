@@ -15,24 +15,27 @@ public class ReverseGroups {
 				String elements[] = line.split(";");
 				String arrayStr = elements[0];
 				String[] numArray = arrayStr.split(",");
-				int window = Integer.parseInt(elements[1]) - 1;
+				int window = Integer.parseInt(elements[1]);
 				int numWins;
 				if(numArray.length % window == 0){
 					numWins = (numArray.length / window) - 2;
 				}else{
 					numWins = (numArray.length / window);
 				}
-				System.out.println(numWins);
-				for(int j = 0; j < numWins; j++){
-					for(int i = window; i >= 0; i--){
-						int index = i * numWins;
+				StringBuilder sb = new StringBuilder();
+				for(int i = 1; i <= numWins; i++){
+					for(int j = 1; j <= window; j++){
+						int index = (i * window) - j;
 						if(index < numArray.length){
-							System.out.println(numArray[index]);
+							sb.append(numArray[index] + " ");
 						}
 					}
 				}
+				for(int k = numWins * window; k < numArray.length; k++){
+					sb.append(numArray[k] + " ");
+				}
+				System.out.println(sb.toString().trim());
 			}
-			System.out.println();
 		}
 		fileScanner.close();
 	}

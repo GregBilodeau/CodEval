@@ -13,35 +13,37 @@ public class HappyNumber {
 		while(fileScanner.hasNextLine()){
 			String line = fileScanner.nextLine();
 			if(!line.equalsIgnoreCase("")){
-				char[] originalNumber = line.toCharArray();
-				System.out.print(happyMe(originalNumber, line.length()));
+				int originalNumber = Integer.parseInt(line);
+				System.out.println(happyMe(originalNumber));
 			}
-			System.out.println();
 		}
 		fileScanner.close();
 	}
 	
-	public static int happyMe(char[] number, int length){
+	public static int happyMe(int number){
 		int result = 0;
 		LinkedList<Integer> pastNumbers = new LinkedList<Integer>();
 		boolean seenThisNumber = false;
-		int totalOfSquares = 0;
+		int totalOfSquares = number;
+		LinkedList<Integer> stack = new LinkedList<Integer>();
 		
-		while(totalOfSquares != 1 || !seenThisNumber){
-			for(int i = 0; i < number.length; i++){
-				int digit = number[i] - 8;
-				int digitSquared = digit * digit;
-				totalOfSquares += digitSquared;
+		while(totalOfSquares != 1 && !seenThisNumber){
+			while (totalOfSquares > 0) {
+			    stack.push( totalOfSquares % 10 );
+			    totalOfSquares = totalOfSquares / 10;
+			}
+
+			while (!stack.isEmpty()) {
+				int digit = stack.pop();
+				totalOfSquares += digit * digit;
 			}
 			// check for cycles
-			for(int j = 0; j < pastNumbers.size(); j++){
-				if(pastNumbers.contains(totalOfSquares)){
-					// cycle
-					seenThisNumber = true;
-				}else{
-					// add to the end of the array
-					pastNumbers.add(totalOfSquares);
-				}
+			if(pastNumbers.contains(totalOfSquares)){
+				// cycle
+				seenThisNumber = true;
+			}else{
+				// add to the end of the array
+				pastNumbers.add(totalOfSquares);
 			}
 		}
 		if(totalOfSquares == 1){
