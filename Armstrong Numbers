@@ -1,0 +1,52 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class ArmstrongNumbers {
+
+/*CHALLENGE DESCRIPTION:
+
+An Armstrong number is an n-digit number that is equal to the sum of the n'th powers of its digits. Determine if the input numbers are Armstrong numbers.
+
+INPUT SAMPLE:
+
+Your program should accept as its first argument a path to a filename. Each line in this file has a positive integer. E.g.
+
+1
+2
+3
+6
+153
+351
+OUTPUT SAMPLE:
+
+Print out True/False if the number is an Armstrong number or not.
+*/
+
+	public static void main(String[] args) throws IOException {
+		File file = new File(args[0]);
+				
+		Scanner fileScanner = new Scanner(file);
+		
+		while(fileScanner.hasNextLine()){
+			String line = fileScanner.nextLine();
+			if(!line.equalsIgnoreCase("")){
+				int nPower = line.length();
+				int originalNumber = Integer.parseInt(line);
+				int digitTotal = 0;
+				for(int i = 0; i < nPower; i++){
+					int digit = line.charAt(i) - 48;
+					int digitToTheN = (int) Math.pow(digit, nPower);
+					digitTotal += digitToTheN;
+				}
+				if(digitTotal == originalNumber){
+					System.out.print("True");
+				}else{
+					System.out.print("False");
+				}
+			}
+			System.out.println();
+		}
+		fileScanner.close();
+	}	
+}
